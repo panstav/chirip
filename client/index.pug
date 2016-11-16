@@ -1,0 +1,41 @@
+doctype html
+html
+	head
+		link(rel='stylesheet' href='tachyons.min.css')
+		link(rel='stylesheet' href='styles.css')
+		script(src='zepto.min.js')
+		script(src='scripts.js')
+
+	body
+
+		main(
+		class="mw7 pa3 center"
+		)
+
+			#new-note(
+			class="cf mb5"
+			)
+
+				h2 Save a new Note
+
+				textarea(
+				class="bg-light-gray w-100 mb1 pa2 bn"
+				placeholder="Keep a note.."
+				)
+
+				button#save-note(
+				class="f6 br2 ba ph3 pv2 mb2 dib black bg-light-blue pointer"
+				disabled
+				) Save Note
+
+				span#counter(
+				class="f5 fr pa2"
+				) 140
+
+			#notes
+
+				h2 Saved Notes
+
+				ol(
+				class="list pl0"
+				)
