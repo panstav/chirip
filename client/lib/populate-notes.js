@@ -1,3 +1,5 @@
+const trim = require('lodash.trim');
+
 module.exports = populateNotes;
 
 function populateNotes(notes){
@@ -11,5 +13,12 @@ function populateNotes(notes){
 }
 
 function renderNote(note){
-	return `<li><article class="bg-washed-green mt3 pa3 br3">${ note.content }</article></li>`;
+	return trim(`
+<li>
+	<article data-id="${ note.id }" class="cf bg-washed-green mt3 pa3 br3">
+		<span>${ note.content }</span>
+		<img data-action="delete-note" class="fr o-0 pointer" src="/svg/delete.svg">
+	</article>
+</li>
+`);
 }

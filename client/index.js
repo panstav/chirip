@@ -22,9 +22,10 @@ const getState = store.getState;
 
 ready(() => {
 	loadFonts();
+	populateNotes(getState().notes);
 	registerSubscriptions();
 	newNoteCtrl();
-	populateNotes(getState().notes);
+	existingNotesCtrl();
 });
 
 function newNoteCtrl(){
@@ -35,7 +36,17 @@ function newNoteCtrl(){
 		dispatch({ type: 'TYPE_NOTE', payload: ev.target.value })
 	});
 
-	$('#save-note').on('click', ev => dispatch({ type: 'SAVE_NOTE' } ));
+	$('#save-note').on('click', ev => {
+		dispatch({ type: 'SAVE_NOTE' });
+	});
+
+}
+
+function existingNotesCtrl(){
+
+	$('#notes ol').on('click', '[data-action="delete-note"]', ev => {
+		dispatch({ type: 'DELETE_NOTE', payload: $(ev.target).parent().data('id') });
+	});
 
 }
 

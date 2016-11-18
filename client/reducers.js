@@ -1,5 +1,5 @@
 const local = require('store');
-const merge = require('lodash.merge');
+const cuid = require('cuid');
 
 module.exports = reducers;
 
@@ -12,17 +12,33 @@ function reducers(state, action){
 
 		case 'SAVE_NOTE':
 			return saveNote(state);
+
+		case 'DELETE_NOTE':
+			return deleteNote(state, action.payload);
 	}
 
 	return state;
 }
 
 function typeNote(state, content){
-	return merge({}, state, { newNote: { content } });
+	return $.extend({}, state, { newNote: { content } });
 }
 
 function saveNote(state){
-	const notes = [state.newNote, ...state.notes];
+
+	const newNote = state.newNote;
+	newNote.id = cuid();
+
+	const notes = [...state.notes, newNote];
 	local.set('notes', notes);
-	return merge({}, state, {notes, newNote: {content:''}});
+
+	return $.extend({}, state, { notes, newNote: {content:''} });
+}
+
+function deleteNote(state, id){
+
+	const restOfNotes = state.notes.filter(note => note.id !== id);
+	local.set('notes', restOfNotes);
+
+	return $.extend({}, state, { notes: restOfNotes });
 }

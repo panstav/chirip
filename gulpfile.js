@@ -17,7 +17,14 @@ gulp.task('clean', () => {
 
 });
 
-gulp.task('static', () => {
+gulp.task('svg', () =>{
+
+	return gulp.src('client/svg/*')
+		.pipe(gulp.dest('public/svg'));
+
+});
+
+gulp.task('static', ['svg'], () => {
 
 	const sourcePaths = [
 		'node_modules/zepto/dist/zepto.min.js',
