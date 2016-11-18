@@ -1,3 +1,4 @@
+const local = require('store');
 const merge = require('lodash.merge');
 
 module.exports = reducers;
@@ -22,5 +23,6 @@ function typeNote(state, content){
 
 function saveNote(state){
 	const notes = [state.newNote, ...state.notes];
+	local.set('notes', notes);
 	return merge({}, state, {notes, newNote: {content:''}});
 }

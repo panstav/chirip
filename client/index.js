@@ -1,4 +1,5 @@
 const ready = require('document-ready');
+const local = require('store');
 
 const createStore = require('redux').createStore;
 const watch = require('redux-watch');
@@ -10,7 +11,7 @@ const loadFonts = require('./lib/load-fonts');
 const populateNotes = require('./lib/populate-notes');
 
 const initialState = {
-	notes: [],
+	notes: local.get('notes') || [],
 	newNote: { content: '' }
 };
 
