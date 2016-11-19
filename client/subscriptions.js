@@ -8,11 +8,15 @@ function newNote(newVal, oldVal){
 
 	const charLeftCount = 140 - newVal.content.length;
 
-	const validContent = trim(newVal.content).length !== 0;
 	const validCount = charLeftCount > -1;
-	const validForSaving = validCount && validContent;
+	const validForSaving = validCount && trim(newVal.content).length !== 0;
 
-	$('#new-note textarea')
+	const textareaElem = $('#new-note textarea');
+	if (textareaElem.val() !== newVal.content){
+		textareaElem.val(newVal.content);
+	}
+
+	textareaElem
 		.toggleClass('b--red', !validCount);
 
 	$('#counter')
@@ -22,10 +26,10 @@ function newNote(newVal, oldVal){
 	$('#save-note')
 		.attr('disabled', !validForSaving ? true : null)
 		.toggleClass('pointer', validForSaving);
+
 }
 
 function notes(newVal, oldVal){
 	if (newVal.length === oldVal.length) return;
-	$('#new-note textarea').val('');
 	populateNotes(newVal);
 }

@@ -44,9 +44,13 @@ function newNoteCtrl(){
 
 function existingNotesCtrl(){
 
-	$('#notes ol').on('click', '[data-action="delete-note"]', ev => {
-		dispatch({ type: 'DELETE_NOTE', payload: $(ev.target).parent().data('id') });
-	});
+	$('#notes ol')
+		.on('click', '[data-action="edit-note"]', ev => noteOption(ev, 'EDIT'))
+		.on('click', '[data-action="delete-note"]', ev => noteOption(ev, 'DELETE'));
+
+	function noteOption(ev, typePrefix){
+		return dispatch({ type: `${typePrefix}_NOTE`, payload: $(ev.target).parents('[data-id]').data('id') });
+	}
 
 }
 

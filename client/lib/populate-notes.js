@@ -17,7 +17,10 @@ function renderNote(note){
 <li>
 	<article data-id="${ note.id }" class="cf bg-washed-green mt3 pa3 br3">
 		<span>${ note.content }</span>
-		<img data-action="delete-note" class="fr o-0 pointer" src="/svg/delete.svg">
+		<div class="options fr o-0">
+			<img data-action="edit-note" class="ml1 pointer" src="/svg/edit.svg">
+			<img data-action="delete-note" class="ml1 pointer" src="/svg/delete.svg">
+		</div>
 	</article>
 </li>
 `);

@@ -13,6 +13,9 @@ function reducers(state, action){
 		case 'SAVE_NOTE':
 			return saveNote(state);
 
+		case 'EDIT_NOTE':
+			return editNote(state, action.payload);
+
 		case 'DELETE_NOTE':
 			return deleteNote(state, action.payload);
 	}
@@ -33,6 +36,11 @@ function saveNote(state){
 	local.set('notes', notes);
 
 	return $.extend({}, state, { notes, newNote: {content:''} });
+}
+
+function editNote(state, id){
+	const editedNote = state.notes.find(note => note.id === id);
+	return $.extend(deleteNote(state, id), { newNote: { content: editedNote.content } });
 }
 
 function deleteNote(state, id){
