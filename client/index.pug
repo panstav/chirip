@@ -6,7 +6,10 @@ html
 		script(src='zepto.min.js')
 		script(src='scripts.js')
 
-	body
+	body(
+	class="bg-light-gray"
+	data-debug=!isProduction
+	)
 
 		main(
 		class="mw7 pa3 center"
@@ -16,20 +19,32 @@ html
 			class="cf mb5"
 			)
 
-				h2 Save a new Note
+				h2 New Note
 
 				textarea(
-				class="bg-light-gray w-100 mb1 pa2 bn"
-				placeholder="Keep a note.."
+				class="w-100 mb1 pa2 bn"
+				placeholder="How are you doing?"
 				)
 
+				#tags-edit(class="dib")
+					button(
+					class="f6 br2 ba ph3 pv2 dib black bg-light-blue pointer"
+					) Tag
+
+					div(
+					contenteditable="true"
+					class="dn bg-white w5 f6 pa2 lh-copy"
+					)
+
+					#new-tags(class="dib pv2")
+
 				button#save-note(
-				class="f6 br2 ba ph3 pv2 mb2 dib black bg-light-blue pointer"
+				class="dib fr f6 br2 ba ph3 pv2 bg-light-blue pointer"
 				disabled
 				) Save Note
 
 				span#counter(
-				class="f5 fr pa2"
+				class="fr gray pa2"
 				) 140
 
 			#notes

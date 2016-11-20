@@ -1,6 +1,8 @@
 const local = require('store');
 const cuid = require('cuid');
 
+const initialState = require('./initial-state');
+
 module.exports = reducers;
 
 function reducers(state, action){
@@ -13,6 +15,9 @@ function reducers(state, action){
 		case 'SAVE_NOTE':
 			return saveNote(state);
 
+		case 'ADD_TAG':
+			return addTag(state, action.payload);
+
 		case 'EDIT_NOTE':
 			return editNote(state, action.payload);
 
@@ -24,23 +29,26 @@ function reducers(state, action){
 }
 
 function typeNote(state, content){
-	return $.extend({}, state, { newNote: { content } });
+	return $.extend(true, {}, state, { newNote: {content} });
 }
 
 function saveNote(state){
 
-	const newNote = state.newNote;
-	newNote.id = cuid();
+	const newNote = $.extend({}, state.newNote, { id: cuid() });
 
 	const notes = [...state.notes, newNote];
 	local.set('notes', notes);
 
-	return $.extend({}, state, { notes, newNote: {content:''} });
+	return $.extend({}, state, { notes, newNote: initialState.newNote });
+}
+
+function addTag(state, newTag){
+	return $.extend(true, {}, state, {newNote: { tags: [...state.newNote.tags, newTag] }});
 }
 
 function editNote(state, id){
 	const editedNote = state.notes.find(note => note.id === id);
-	return $.extend(deleteNote(state, id), { newNote: { content: editedNote.content } });
+	return $.extend(deleteNote(state, id), { newNote: editedNote });
 }
 
 function deleteNote(state, id){

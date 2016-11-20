@@ -1,5 +1,3 @@
-const trim = require('lodash.trim');
-
 module.exports = populateNotes;
 
 function populateNotes(notes){
@@ -8,20 +6,20 @@ function populateNotes(notes){
 		? notes.map(renderNote).join('')
 		: '<div>No saved notes.</div>';
 
-	$('#notes ol').html(notesHtml);
+	$('#notes ol').html($.trim(notesHtml));
 
 }
 
 function renderNote(note){
-	return trim(`
+	return `
 <li>
-	<article data-id="${ note.id }" class="cf bg-washed-green mt3 pa3 br3">
+	<article data-id="${ note.id }" class="cf bg-white mt3 pa3 br2">
 		<span>${ note.content }</span>
 		<div class="options fr o-0">
-			<img data-action="edit-note" class="ml1 pointer" src="/svg/edit.svg">
-			<img data-action="delete-note" class="ml1 pointer" src="/svg/delete.svg">
+			<img data-action="edit-note" class="w1 h1 ml1 pointer" src="/svg/edit.svg">
+			<img data-action="delete-note" class="w1 h1 ml1 pointer" src="/svg/delete.svg">
 		</div>
 	</article>
 </li>
-`);
+`;
 }
