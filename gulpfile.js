@@ -4,7 +4,7 @@ const plugins = require('gulp-load-plugins')();
 const guid = require('random-guid');
 
 const isProduction = process.env.NODE_ENV === 'production';
-const randomHash = guid.randomString().substr(0, 10);
+const version = require('./package.json').version;
 
 gulp.task('clean', () => {
 
@@ -35,7 +35,7 @@ gulp.task('static', ['icons', 'svg'], () => {
 
 	const sourcePaths = [
 		'client/manifest.json',
-		'node_modules/zepto/dist/zepto.min.js',
+		'client/zepto.min.js',
 		'node_modules/tachyons/css/tachyons.min.css'
 	];
 
@@ -54,17 +54,27 @@ gulp.task('css', () => {
 	return gulp.src('client/index.sass')
 		.pipe(plugins.sass(sassOptions))
 		.pipe(plugins.autoprefixer({ browsers: ['> 1%', 'ie > 8'] }))
-		.pipe(plugins.rename({ basename: isProduction ? `${randomHash}.min` : 'styles' }))
+		.pipe(plugins.rename({ basename: isProduction ? version : 'styles' }))
 		.pipe(gulp.dest('public'));
 
 });
 
-gulp.task('javascript', () => {
+gulp.task('service-worker', () => {
+
+	// copy pastes
+	return gulp.src('client/sw.js')
+		.pipe(plugins.replace('$JSBASENAME$', isProduction ? version : 'scripts'))
+		.pipe(plugins.replace('$CSSBASENAME$', isProduction ? version : 'styles'))
+		.pipe(gulp.dest('public'));
+
+});
+
+gulp.task('javascript', ['service-worker'], () => {
 
 	return gulp.src('client/index.js')
 		.pipe(plugins.browserify({ transform: ['babelify'] }))
 		.pipe(plugins.if(isProduction, plugins.uglify()))
-		.pipe(plugins.rename({ basename: isProduction ? `${randomHash}.min` : 'scripts' }))
+		.pipe(plugins.rename({ basename: isProduction ? version : 'scripts' }))
 		.pipe(gulp.dest('public'));
 
 });
@@ -72,7 +82,7 @@ gulp.task('javascript', () => {
 gulp.task('html', () => {
 
 	return gulp.src('client/index.pug')
-		.pipe(plugins.pug({ pretty: !isProduction }))
+		.pipe(plugins.pug({ locals: {version, isProduction}, pretty: !isProduction }))
 		.pipe(gulp.dest('public'));
 
 });
@@ -87,7 +97,7 @@ gulp.task('build-zepto', () => {
 
 	return gulp.src('index.js', { read: false })
 		.pipe(plugins.shell([
-			`MODULES="${process.env.ZEPTO_MODULES || 'zepto event'}" cd node_modules/zepto && npm run dist && cp dist/zepto.min.js ../../public`
+			`MODULES="${process.env.ZEPTO_MODULES || 'zepto event'}" cd node_modules/zepto && npm run dist && cp dist/zepto.min.js ../../client`
 		]));
 
 });

@@ -1,5 +1,7 @@
 doctype html
-html
+
+html(class=isProduction?'production':'')
+
 	head
 		link(rel="manifest" href="/manifest.json")
 		meta(name="viewport" content="width=device-width")
@@ -15,14 +17,11 @@ html
 		link(rel="mask-icon", href="/icons/safari-pinned-tab.svg", color="#96ccff")
 
 		link(rel='stylesheet' href='tachyons.min.css')
-		link(rel='stylesheet' href='styles.css')
+		link(rel='stylesheet' href=isProduction ? version+'.css' : 'styles.css')
 		script(src='zepto.min.js')
-		script(src='scripts.js')
+		script(src=isProduction ? version+'.js' : 'scripts.js')
 
-	body(
-	class="bg-light-gray"
-	data-debug=!isProduction
-	)
+	body(class="bg-light-gray")
 
 		main(
 		class="mw7 pa3 center"

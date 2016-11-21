@@ -22,6 +22,7 @@ ready(() => {
 	registerSubscriptions();
 	newNoteCtrl();
 	existingNotesCtrl();
+	registerServiceWorker();
 });
 
 function newNoteCtrl(){
@@ -79,4 +80,12 @@ function registerSubscriptions(){
 		const watcher = watch(getState, path);
 		subscribe(watcher(subscription));
 	});
+}
+
+function registerServiceWorker(){
+
+	if ('serviceWorker' in navigator){
+		navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW error!', err));
+	}
+
 }

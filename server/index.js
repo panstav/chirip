@@ -21,9 +21,10 @@ function initServer(){
 
 	// serve pages
 	server.get('/', (req, res) => res.sendFile('index.html', { root: 'public', maxAge: 0 }));
+	server.get('/sw.js', (req, res) => res.sendFile('sw.js', { root: 'public', maxAge: 0 }));
 
 	// serve static files
-	server.use(express.static('public', { maxAge: 1000*60*60*24*365 }));
+	server.use(express.static('public', { maxAge: isProduction ? 1000*60*60*24*365 : 0 }));
 
 	//---======================================================---
 	//--------- Fallback Routes
