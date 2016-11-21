@@ -49,11 +49,20 @@ function newNoteCtrl(){
 
 	// tagging
 	tagsContentElem.on('keydown', ev => {
+
 		if (ev.key === 'Enter'){
-			dispatch({ type: 'ADD_TAG', payload: kebabCase(tagsContentElem.text()) });
+			dispatch({ type: 'ADD_TAG', payload: normalizeTag(tagsContentElem.text()) });
 			tagsContentElem.text('');
 			return false;
 		}
+
+		function normalizeTag(){
+			const newTag = kebabCase(tagsContentElem.text());
+			return newTag.charAt(0) === '-'
+				? newTag.substr(1)
+				: newTag;
+		}
+
 	});
 
 	addTagsButton.on('click', () => {
