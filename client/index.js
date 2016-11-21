@@ -32,8 +32,11 @@ function newNoteCtrl(){
 	const addTagsButton = $('button', tagsContainer);
 
 	// track textarea typing
+	let previousKey = '';
 	$('textarea').on('keyup', ev => {
+		if (previousKey === 'Enter' && ev.key === 'Control') return dispatch({ type: 'SAVE_NOTE' });
 		dispatch({ type: 'TYPE_NOTE', payload: ev.target.value });
+		previousKey = ev.key;
 	});
 
 	// hide tags input after saving new note
