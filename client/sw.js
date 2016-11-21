@@ -1,17 +1,16 @@
 var CACHE_NAME = 'v1';
 
-// Files required to make this app work offline
-var REQUIRED_FILES = [
-	'/',
-	'$JSBASENAME$.js',
-	'$CSSBASENAME$.css',
-	'tachyons.min.css',
-	'zepto.min.js',
-	'svg/edit.svg',
-	'svg/delete.svg'
-];
-
 self.addEventListener('install', function(event) {
+
+	var REQUIRED_FILES = [
+		'/',
+		'$JSBASENAME$.js',
+		'$CSSBASENAME$.css',
+		'tachyons.min.css',
+		'zepto.min.js',
+		'svg/edit.svg',
+		'svg/delete.svg'
+	];
 
 	var addOfflineDependencies = caches.open(CACHE_NAME)
 		.then(function(cache) {
@@ -32,5 +31,22 @@ self.addEventListener('fetch', function(event) {
 		});
 
 	event.respondWith(cachedVersion);
+
+});
+
+self.addEventListener('activate', event => {
+
+	event.waitUntil(caches.keys()
+		.then(keys => {
+
+			return Promise.all(deleteOldCaches());
+
+			function deleteOldCaches(){
+				return keys
+					.filter(key => key !== CACHE_NAME)
+					.map(key => caches.delete(key));
+			}
+
+		}));
 
 });
