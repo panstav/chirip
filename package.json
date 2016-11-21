@@ -1,6 +1,6 @@
 {
   "name": "chirip",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Twitter clone for private note-keeping",
   "main": "index.js",
   "scripts": {
