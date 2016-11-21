@@ -17,16 +17,24 @@ gulp.task('clean', () => {
 
 });
 
-gulp.task('svg', () =>{
+gulp.task('icons', () => {
+
+	return gulp.src('client/icons/*')
+		.pipe(gulp.dest('public/icons'));
+
+});
+
+gulp.task('svg', () => {
 
 	return gulp.src('client/svg/*')
 		.pipe(gulp.dest('public/svg'));
 
 });
 
-gulp.task('static', ['svg'], () => {
+gulp.task('static', ['icons', 'svg'], () => {
 
 	const sourcePaths = [
+		'client/manifest.json',
 		'node_modules/zepto/dist/zepto.min.js',
 		'node_modules/tachyons/css/tachyons.min.css'
 	];
