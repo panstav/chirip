@@ -1,7 +1,8 @@
-const ready = require('document-ready');
-
 const createStore = require('redux').createStore;
 const watch = require('redux-watch');
+
+const ready = require('document-ready');
+const kebabCase = require('kebab-case');
 
 const initialState = require('./initial-state');
 const reducers = require('./reducers');
@@ -45,7 +46,7 @@ function newNoteCtrl(){
 	// tagging
 	tagsContentElem.on('keydown', ev => {
 		if (ev.key === 'Enter'){
-			dispatch({ type: 'ADD_TAG', payload: tagsContentElem.text() });
+			dispatch({ type: 'ADD_TAG', payload: kebabCase(tagsContentElem.text()) });
 			tagsContentElem.text('');
 			return false;
 		}
