@@ -40,7 +40,7 @@ function newNoteCtrl(){
 	});
 
 	// hide tags input after saving new note
-	$('#save-note', noteContainer).on('click', ev => {
+	$('#save-note', noteContainer).on('click', () => {
 		dispatch({ type: 'SAVE_NOTE' });
 		tagsContentElem.hide().html('');
 		addTagsButton.show();
@@ -55,7 +55,7 @@ function newNoteCtrl(){
 		}
 	});
 
-	addTagsButton.on('click', ev => {
+	addTagsButton.on('click', () => {
 		addTagsButton.hide();
 		tagsContentElem.show().focus();
 	});
