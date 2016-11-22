@@ -1,6 +1,7 @@
+const notify = require('./lib/notify');
 const populateNotes = require('./lib/populate-notes');
 
-module.exports = { newNote, notes };
+module.exports = { offlineAvailable, newNote, notes };
 
 function newNote(newVal, oldVal){
 
@@ -58,4 +59,9 @@ function newNote(newVal, oldVal){
 function notes(newVal, oldVal){
 	if (newVal.length === oldVal.length) return;
 	populateNotes(newVal);
+}
+
+function offlineAvailable(newVal){
+	if (newVal !== true) return;
+	notify({ string: 'Offline mode is now available!', icon: 'offline' });
 }

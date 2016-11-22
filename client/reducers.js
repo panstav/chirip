@@ -9,6 +9,9 @@ function reducers(state, action){
 
 	switch (action.type){
 
+		case 'SW_ACTIVE':
+			return serviceWorkerActive(state);
+
 		case 'TYPE_NOTE':
 			return typeNote(state, action.payload);
 
@@ -26,6 +29,10 @@ function reducers(state, action){
 	}
 
 	return state;
+}
+
+function serviceWorkerActive(state){
+	return $.extend({}, state, { offlineAvailable: true });
 }
 
 function typeNote(state, content){

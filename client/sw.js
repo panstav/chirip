@@ -1,4 +1,4 @@
-var CACHE_NAME = 'v1';
+var CACHE_NAME = 'v2';
 
 self.addEventListener('install', function(event) {
 
@@ -9,7 +9,8 @@ self.addEventListener('install', function(event) {
 		'tachyons.min.css',
 		'zepto.min.js',
 		'svg/edit.svg',
-		'svg/delete.svg'
+		'svg/delete.svg',
+		'svg/offline.svg'
 	];
 
 	var addOfflineDependencies = caches.open(CACHE_NAME)

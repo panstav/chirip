@@ -22,3 +22,14 @@ html
 			opacity: 1
 		.options
 			transition: opacity .3s ease
+
+[data-notification]
+	transition: top ease .5s, opacity ease .3s
+	width: 25rem
+	box-shadow: 0 0 5px rgba(0, 0, 0, .5)
+	border-width: 1px
+
+	top: -3rem
+	&[data-is-shown="true"]
+		top: 2rem
+		opacity: 1
