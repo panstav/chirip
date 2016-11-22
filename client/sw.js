@@ -1,6 +1,7 @@
 var CACHE_NAME = 'v2';
 
 self.addEventListener('install', function(event) {
+	self.skipWaiting();
 
 	var REQUIRED_FILES = [
 		'/',
@@ -37,17 +38,17 @@ self.addEventListener('fetch', function(event) {
 
 self.addEventListener('activate', event => {
 
-	event.waitUntil(caches.keys()
-		.then(keys => {
+	var p = caches.keys()
+		.then(function(keys){ return Promise.all(deleteOldCaches(keys)); });
 
-			return Promise.all(deleteOldCaches());
+	event.waitUntil(p);
 
-			function deleteOldCaches(){
-				return keys
-					.filter(key => key !== CACHE_NAME)
-					.map(key => caches.delete(key));
-			}
+	function deleteOldCaches(keys){
 
-		}));
+		return keys
+			.filter(key => key !== CACHE_NAME)
+			.map(key => caches.delete(key));
+
+	}
 
 });
