@@ -6,7 +6,7 @@ function loadFonts(){
 
 	webFont.load({
 		google: { families: ['Open+Sans'] },
-		timeout: 30000
+		timeout: 2000
 	});
 
 }
