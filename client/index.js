@@ -76,7 +76,11 @@ function existingNotesCtrl(){
 
 	$('#notes ol')
 		.on('click', '[data-action="edit-note"]', ev => getNoteOptionAction(ev, 'EDIT'))
-		.on('click', '[data-action="delete-note"]', ev => getNoteOptionAction(ev, 'DELETE'));
+		.on('click', '[data-action="delete-note"]', ev => {
+			if (confirm('Are you sure you want to delete this note?')){
+				getNoteOptionAction(ev, 'DELETE');
+			}
+		});
 
 	function getNoteOptionAction(ev, typePrefix){
 		return dispatch({ type: `${typePrefix}_NOTE`, payload: $(ev.target).parents('[data-id]').data('id') });
