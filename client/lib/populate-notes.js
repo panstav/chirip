@@ -12,7 +12,7 @@ function populateNotes(notes){
 
 function noteElem(note){
 	return `
-<article data-id="${ note.id }" class="cf bg-white mt3 pa3 br2">
+<article data-id="${ note.id }" class="cf bg-white pa2 pa3-ns mt2 mt3-ns br2">
 	<div class="fr ml2 mb2 gray f6">${ humanDate(note.createdAt) }</div>
 	<div class="options fr o-0 mr1">
 		<img data-action="edit-note" class="w1 h1 ml1 pointer" src="/svg/edit.svg">
