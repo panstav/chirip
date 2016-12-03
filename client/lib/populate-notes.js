@@ -14,6 +14,7 @@ function renderNote(note){
 	return `
 <li>
 	<article data-id="${ note.id }" class="cf bg-white mt3 pa3 br2">
+		<div class="fr ml2 mb2 gray f6">${ humanDate(note.createdAt) }</div>
 		<span>${ note.content.replace('\n', '<br>') }</span>
 		<div class="options fr o-0">
 			<img data-action="edit-note" class="w1 h1 ml1 pointer" src="/svg/edit.svg">
@@ -22,4 +23,9 @@ function renderNote(note){
 	</article>
 </li>
 `;
+}
+
+function humanDate(unixTime){
+	const date = new Date(unixTime);
+	return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear().toString().substr(2)}`;
 }

@@ -41,7 +41,10 @@ function typeNote(state, content){
 
 function saveNote(state){
 
-	const newNote = $.extend({}, state.newNote, { id: cuid() });
+	const date = new Date();
+	const createdAt = state.newNote.createdAt || date.getTime();
+
+	const newNote = $.extend({}, state.newNote, { id: cuid(), createdAt });
 
 	const notes = [...state.notes, newNote];
 	local.set('notes', notes);
