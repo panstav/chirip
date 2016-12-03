@@ -3,25 +3,23 @@ module.exports = populateNotes;
 function populateNotes(notes){
 
 	const notesHtml = notes.length
-		? notes.map(renderNote).join('')
+		? notes.map(note => `<li>${noteElem(note)}</li>`).join('')
 		: '<div>No saved notes.</div>';
 
 	$('#notes ol').html($.trim(notesHtml));
 
 }
 
-function renderNote(note){
+function noteElem(note){
 	return `
-<li>
-	<article data-id="${ note.id }" class="cf bg-white mt3 pa3 br2">
-		<div class="fr ml2 mb2 gray f6">${ humanDate(note.createdAt) }</div>
-		<div class="options fr o-0 mr1">
-			<img data-action="edit-note" class="w1 h1 ml1 pointer" src="/svg/edit.svg">
-			<img data-action="delete-note" class="w1 h1 ml1 pointer" src="/svg/delete.svg">
-		</div>
-		<p>${ note.content }</p>
-	</article>
-</li>
+<article data-id="${ note.id }" class="cf bg-white mt3 pa3 br2">
+	<div class="fr ml2 mb2 gray f6">${ humanDate(note.createdAt) }</div>
+	<div class="options fr o-0 mr1">
+		<img data-action="edit-note" class="w1 h1 ml1 pointer" src="/svg/edit.svg">
+		<img data-action="delete-note" class="w1 h1 ml1 pointer" src="/svg/delete.svg">
+	</div>
+	<p class="ma0">${ note.content }</p>
+</article>
 `;
 }
 
