@@ -63,6 +63,8 @@ gulp.task('service-worker', () => {
 
 	// copy pastes
 	return gulp.src('client/sw.js')
+		.pipe(plugins.browserify({ transform: ['babelify'] }))
+		.pipe(plugins.if(isProduction, plugins.uglify()))
 		.pipe(plugins.replace('$JSBASENAME$', isProduction ? version : 'scripts'))
 		.pipe(plugins.replace('$CSSBASENAME$', isProduction ? version : 'styles'))
 		.pipe(gulp.dest('public'));

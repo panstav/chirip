@@ -1,30 +1,28 @@
-var CACHE_NAME = 'v2';
+const CACHE_NAME = 'v3';
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', event => {
 
-	event.waitUntil(addOfflineDependencies());
+		event.waitUntil(addOfflineDependencies());
 
-	function addOfflineDependencies(){
+		function addOfflineDependencies(){
 
-		var REQUIRED_FILES = [
-			'/',
-			'$JSBASENAME$.js',
-			'$CSSBASENAME$.css',
-			'tachyons.min.css',
-			'zepto.min.js',
-			'svg/edit.svg',
-			'svg/delete.svg',
-			'svg/offline.svg'
-		];
+			const REQUIRED_FILES = [
+				'/',
+				'$JSBASENAME$.js',
+				'$CSSBASENAME$.css',
+				'tachyons.min.css',
+				'zepto.min.js',
+				'svg/edit.svg',
+				'svg/delete.svg',
+				'svg/offline.svg'
+			];
 
-		return caches.open(CACHE_NAME)
-			.then(function(cache) {
-				return cache.addAll(REQUIRED_FILES);
-			});
+			return caches.open(CACHE_NAME)
+				.then(cache => cache.addAll(REQUIRED_FILES));
 
-	}
+		}
 
-});
+	});
 
 self.addEventListener('activate', event => {
 
@@ -33,30 +31,21 @@ self.addEventListener('activate', event => {
 	function oldCachesDeleted(){
 
 		return caches.keys()
-			.then(function(keys){
-				return Promise.all(deleteOldCaches(keys));
-			});
-
-		function deleteOldCaches(keys){
-
-			return keys
-				.filter(key => key !== CACHE_NAME)
-				.map(key => caches.delete(key));
-
-		}
+			.then(keys => keys.filter(key => key !== CACHE_NAME))
+			.then(keys => Promise.all(keys.map(key => caches.delete(key))));
 
 	}
 
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', event => {
 
 	event.respondWith(cacheThenNetwork());
 
 	function cacheThenNetwork(){
 
 		return caches.match(event.request)
-			.then(function(response){
+			.then(response => {
 				if (response) return response;
 				return fetch(event.request);
 			});
