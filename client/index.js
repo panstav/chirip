@@ -99,7 +99,6 @@ function registerServiceWorker(){
 
 	if ('serviceWorker' in navigator){
 		navigator.serviceWorker.register('/sw.js')
-			.then(() => dispatch({ type: 'SW_ACTIVE' }))
 			.catch(err => console.log('SW error!', err));
 	}
 
