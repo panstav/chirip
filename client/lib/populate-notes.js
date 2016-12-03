@@ -19,7 +19,7 @@ function renderNote(note){
 			<img data-action="edit-note" class="w1 h1 ml1 pointer" src="/svg/edit.svg">
 			<img data-action="delete-note" class="w1 h1 ml1 pointer" src="/svg/delete.svg">
 		</div>
-		<s>${ note.content.replace('\n', '<br>') }</s>
+		<p>${ note.content }</p>
 	</article>
 </li>
 `;
