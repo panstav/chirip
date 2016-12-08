@@ -6,6 +6,9 @@ html
 	&.wf-active
 		font-family: 'Open Sans', sans-serif
 
+body
+	background-color: #4682b4
+
 #new-note
 
 	textarea
@@ -18,10 +21,19 @@ html
 #notes
 
 	article
-		&:hover .options
-			opacity: 1
-		.options
-			transition: opacity .3s ease
+		box-shadow: inset 0px -1px 2px 0px #DCDCDC
+
+		[data-role="actions-container"]
+			transition: height .3s ease, opacity .3s ease
+
+			height: 0
+			&[data-open="true"]
+				height: 2rem
+
+			opacity: .3
+			&:hover
+				opacity: 1
+
 
 [data-notification]
 	transition: top ease .5s, opacity ease .3s

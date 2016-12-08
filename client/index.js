@@ -75,15 +75,22 @@ function newNoteCtrl(){
 function existingNotesCtrl(){
 
 	$('#notes ol')
+		// open note options on note click
+		.on('click', '[data-note-id]', ev => {
+			const evElem = $(ev.target);
+			const noteElem = !evElem.is('[data-note-id]')
+					? evElem.parent('[data-note-id]')
+					: evElem;
+
+			noteElem.find('[data-role="actions-container"]').data('open', true);
+		})
 		.on('click', '[data-action="edit-note"]', ev => getNoteOptionAction(ev, 'EDIT'))
 		.on('click', '[data-action="delete-note"]', ev => {
-			if (confirm('Are you sure you want to delete this note?')){
-				getNoteOptionAction(ev, 'DELETE');
-			}
+			if (confirm('Are you sure?')) getNoteOptionAction(ev, 'DELETE');
 		});
 
 	function getNoteOptionAction(ev, typePrefix){
-		return dispatch({ type: `${typePrefix}_NOTE`, payload: $(ev.target).parents('[data-id]').data('id') });
+		return dispatch({ type: `${typePrefix}_NOTE`, payload: $(ev.target).parents('[data-note-id]').data('note-id') });
 	}
 
 }

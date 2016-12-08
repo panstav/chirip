@@ -12,13 +12,13 @@ function populateNotes(notes){
 
 function noteElem(note){
 	return `
-<article data-id="${ note.id }" class="cf bg-white pa2 pa3-ns mt2 mt3-ns br2">
-	<div class="fr ml2 mb2 gray f6">${ humanDate(note.createdAt) }</div>
-	<div class="options fr o-0 mr1">
-		<img data-action="edit-note" class="w1 h1 ml1 pointer" src="/svg/edit.svg">
-		<img data-action="delete-note" class="w1 h1 ml1 pointer" src="/svg/delete.svg">
-	</div>
-	<p class="ma0">${ note.content }</p>
+<article data-note-id="${ note.id }" class="cf bg-white mt2 mt3-ns br2 overflow-hidden">
+	<div class="f6 light-silver pa2">${ humanDate(note.createdAt) }</div>
+	<p class="f4 ml2 pa2">${ note.content }</p>
+	<div class="b--light-blue bt bw1"><div data-role="actions-container" class="light-silver overflow-hidden">
+			<a data-action="edit-note" class="dib ph3 pv2"><img class="db h1 w1" src="/svg/edit.svg"></a>
+			<a data-action="delete-note" class="dib ph3 pv2"><img class="db h1 w1" src="/svg/delete.svg"></a>
+	</div></div>
 </article>
 `;
 }
