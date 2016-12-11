@@ -1,3 +1,5 @@
+$themeBackgroundColor: #f5f5f5
+
 html
 	&:not(.production)
 		padding-bottom: 100vh
@@ -6,12 +8,10 @@ html
 	&.wf-active
 		font-family: 'Open Sans', sans-serif
 
-body
-	background-color: #4682b4
-
 #new-note
 
 	textarea
+		background-color: $themeBackgroundColor
 		resize: none
 		height: 6rem
 
@@ -21,6 +21,7 @@ body
 #notes
 
 	article
+		background-color: $themeBackgroundColor
 		box-shadow: inset 0px -1px 2px 0px #DCDCDC
 
 		[data-role="note-content"]
