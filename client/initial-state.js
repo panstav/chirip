@@ -1,7 +1,14 @@
 const local = require('store');
 
+const user = local.get('user');
+
 module.exports = {
-	user: local.get('user'),
+	user,
 	notes: local.get('notes') || [],
-	newNote: { content: '', tags: [], createdAt: 0 }
+	newNote: {
+		content: '',
+		tags: [],
+		createdAt: 0,
+		author: {name: user.name, handle: user.handle}
+	}
 };
