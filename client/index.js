@@ -79,7 +79,7 @@ function existingNotesCtrl(){
 		.on('click', '[data-note-id]', ev => {
 			const evElem = $(ev.target);
 			const noteElem = !evElem.is('[data-note-id]')
-					? evElem.parent('[data-note-id]')
+					? evElem.parents('[data-note-id]')
 					: evElem;
 
 			noteElem.find('[data-role="actions-container"]').data('open', true);
