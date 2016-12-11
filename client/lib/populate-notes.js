@@ -24,7 +24,7 @@ function noteElem(note){
 		<span data-role="author-handle" class="light-silver">${note.author.handle}</span>
 		<div class="fr f6 light-silver mr2">${ humanDate(note.createdAt) }</div>
 		
-		<p class="f4 mh2 pa2">${ note.content }</p>
+		<p class="f4 mh3">${ note.content }</p>
 		<div class="b--light-blue bt bw1"><div data-role="actions-container" class="light-silver overflow-hidden">
 				<a data-action="edit-note" class="dib pl3 pv2"><img class="db h1 w1" src="/svg/edit.svg"></a>
 				<a data-action="delete-note" class="dib pl3 pv2"><img class="db h1 w1" src="/svg/delete.svg"></a>
