@@ -1,3 +1,5 @@
+const humanDate = require('human-date');
+
 module.exports = populateNotes;
 
 function populateNotes(notes){
@@ -22,7 +24,7 @@ function noteElem(note){
 		
 		<span class="fw6 mr2">${note.author.name}</span>
 		<span data-role="author-handle" class="light-silver">${note.author.handle}</span>
-		<div class="fr f6 light-silver mr2">${ humanDate(note.createdAt) }</div>
+		<div class="fr f6 light-silver mr2">${ humanDate.relativeTime(new Date(note.createdAt)) }</div>
 		
 		<p class="f4 mh3">${ note.content }</p>
 		<div class="b--light-blue bt bw1"><div data-role="actions-container" class="light-silver overflow-hidden">
@@ -33,9 +35,4 @@ function noteElem(note){
 	</div>
 </article>
 `;
-}
-
-function humanDate(unixTime){
-	const date = new Date(unixTime);
-	return `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear().toString().substr(2)}`;
 }
