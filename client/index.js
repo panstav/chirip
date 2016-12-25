@@ -31,7 +31,7 @@ function homeCtrl(){
 		openNoteModal(initialState.newNote);
 	});
 
-	$('main ol')
+	$('main')
 		// open note options on note click
 		.on('click', '[data-note-id]', openOptions)
 		.on('click', '[data-action="edit-note"]', ev => {

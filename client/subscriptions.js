@@ -7,7 +7,7 @@ function notes(newVal, oldVal){
 	$('main').html(getNotesTemplate(!!newVal.length));
 
 	function getNotesTemplate(gotNotes){
-		if (!gotNotes) return '<div class="ma2">No saved notes.</div>';
+		if (!gotNotes) return '<div class="mh3 mv4">No saved notes.</div>';
 
 		return newVal.map(note => `<ol data-role="note-list" class="list pl0">
 	<li class="pb3">${renderNote(note)}</li>
