@@ -15,14 +15,11 @@ function reducers(state, action){
 		case 'SAVE_NOTE':
 			return saveNote(state);
 
-		case 'ADD_TAG':
-			return addTag(state, action.payload);
-
 		case 'EDIT_NOTE':
-			return editNote(state, action.payload);
+			return editNote(state, action.payload.id);
 
 		case 'DELETE_NOTE':
-			return deleteNote(state, action.payload);
+			return deleteNote(state, action.payload.id);
 	}
 
 	return state;
@@ -35,18 +32,15 @@ function typeNote(state, content){
 function saveNote(state){
 
 	const date = new Date();
+	const id = state.newNote.id || cuid();
 	const createdAt = state.newNote.createdAt || date.getTime();
 
-	const newNote = $.extend({}, state.newNote, { id: cuid(), createdAt });
+	const newNote = $.extend({}, state.newNote, { id, createdAt });
 
 	const notes = [...state.notes, newNote];
 	local.set('notes', notes);
 
 	return $.extend({}, state, { notes, newNote: initialState.newNote });
-}
-
-function addTag(state, newTag){
-	return $.extend(true, {}, state, {newNote: { tags: [...state.newNote.tags, newTag] }});
 }
 
 function editNote(state, id){

@@ -24,51 +24,26 @@ html(class=isProduction?'production':'')
 	body
 
 		main(
-		class="mw7 pa2 pa3-ns center"
+		class="mw7 ph2 ph3-ns center"
 		)
 
-			#new-note(
-			class="cf mb5"
+			ol(
+			data-role="note-list"
+			class="list pl0"
 			)
 
-				h2 New Note
-
-				textarea(
-				class="f4 w-100 mb1 pa2 bn"
-				placeholder="How are you doing?"
-				)
-
-				#tags-edit(class="dib w-100 w5-ns")
-					button(
-					class="f6 br2 ba ph3 pv2 dib black bg-light-blue pointer"
-					) Tag
-
-					div(
-					contenteditable="true"
-					class="dn bg-white f6 pa2 lh-copy"
-					)
-
-					#new-tags(class="dib pv2")
-
-				button#save-note(
-				class="dib fr f6 br2 ba ph3 pv2 bg-light-blue pointer"
-				disabled
-				) Save Note
-
-				span#counter(
-				class="fr gray pa2"
-				) 140
-
-			#notes
-
-				h2 Saved Notes
-
-				ol(
-				class="list pl0"
-				)
+		button(
+		data-role="fab"
+		data-action="open-new-note-window"
+		class="bw0 pointer bg-light-blue right-1 bottom-1 right-2-ns bottom-2-ns br-100 fab fixed h3 outline-0 w3"
+		)
+			img(src="/svg/create.svg")
 
 		div(
-		class="fixed o-0 center w5 f6 left-0 right-0 ph3 pv2 z-9999 bg-white ba b--light-blue br3"
-		data-notification
-		data-is-shown="false"
+		data-modal-overlay
+		class="dn z-max fixed top-0 bottom-0 right-0 left-0 bg-light-blue pa2 ph3-l"
 		)
+			div(
+			data-modal
+			class="mw7 center overflow-y-auto overflow-x-hidden"
+			)
