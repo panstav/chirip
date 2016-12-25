@@ -14,7 +14,8 @@ self.addEventListener('install', event => {
 				'zepto.min.js',
 				'svg/edit.svg',
 				'svg/delete.svg',
-				'svg/offline.svg'
+				'svg/create.svg',
+				'svg/cancel.svg'
 			];
 
 			return caches.open(CACHE_NAME)
