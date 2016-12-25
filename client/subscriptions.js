@@ -4,11 +4,17 @@ module.exports = { notes, newNote };
 
 function notes(newVal, oldVal){
 
-	const notesHtml = newVal.length
-		? newVal.map(note => `<li class="pb3">${renderNote(note)}</li>`).join('')
-		: '<div>No saved notes.</div>';
+	$('main').html(getNotesTemplate(!!newVal.length));
 
-	$('main ol').html(notesHtml);
+	function getNotesTemplate(gotNotes){
+		if (!gotNotes) return '<div class="ma2">No saved notes.</div>';
+
+		return newVal.map(note => `<ol data-role="note-list" class="list pl0">
+	<li class="pb3">${renderNote(note)}</li>
+</ol>`).join('');
+
+	}
+
 }
 
 function newNote(newVal, oldVal){
