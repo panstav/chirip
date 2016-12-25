@@ -3,6 +3,8 @@ const cuid = require('cuid');
 
 const initialState = require('./initial-state');
 
+let cachedNote;
+
 module.exports = reducers;
 
 function reducers(state, action){
@@ -10,7 +12,10 @@ function reducers(state, action){
 	switch (action.type){
 
 		case 'TYPE_NOTE':
-			return typeNote(state, action.payload);
+			return $.extend(true, {}, state, { newNote: {content: action.payload} });
+
+		case 'CANCEL_NEW_NOTE':
+			return cancelNewNote(state);
 
 		case 'SAVE_NOTE':
 			return saveNote(state);
@@ -25,8 +30,15 @@ function reducers(state, action){
 	return state;
 }
 
-function typeNote(state, content){
-	return $.extend(true, {}, state, { newNote: {content} });
+function cancelNewNote(state){
+
+	if (!cachedNote) return $.extend({}, state, { newNote: initialState.newNote });
+
+	const notes = [...state.notes, cachedNote];
+	cachedNote = undefined;
+
+	return $.extend({}, state, { notes, newNote: initialState.newNote });
+
 }
 
 function saveNote(state){
@@ -40,11 +52,13 @@ function saveNote(state){
 	const notes = [...state.notes, newNote];
 	local.set('notes', notes);
 
+	cachedNote = undefined;
 	return $.extend({}, state, { notes, newNote: initialState.newNote });
 }
 
 function editNote(state, id){
 	const editedNote = state.notes.find(note => note.id === id);
+	cachedNote = editedNote;
 	return $.extend(deleteNote(state, id), { newNote: editedNote });
 }
 

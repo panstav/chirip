@@ -112,7 +112,7 @@ function homeCtrl(){
 			// cancel new note
 			$('[data-action="cancel-new-note"]', modalElem).on('click', () => {
 				modal();
-				dispatch({ type: 'TYPE_NOTE', payload: '' });
+				dispatch({ type: 'CANCEL_NEW_NOTE' });
 			});
 
 			// focus on note editing field
