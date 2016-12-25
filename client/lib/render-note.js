@@ -1,18 +1,8 @@
 const humanDate = require('human-date');
 
-module.exports = populateNotes;
+module.exports = renderNote;
 
-function populateNotes(notes){
-
-	const notesHtml = notes.length
-		? notes.map(note => `<li class="pb3">${noteElem(note)}</li>`).join('')
-		: '<div>No saved notes.</div>';
-
-	$('main ol').html($.trim(notesHtml));
-
-}
-
-function noteElem(note){
+function renderNote(note){
 
 	return `
 <article data-note-id="${ note.id }" class="cf mt3 br2 overflow-hidden">

@@ -11,6 +11,9 @@ function reducers(state, action){
 
 	switch (action.type){
 
+		case 'LOAD_PERSONAL_NOTES':
+			return $.extend({}, state, { notes: local.get('notes') });
+
 		case 'TYPE_NOTE':
 			return $.extend(true, {}, state, { newNote: {content: action.payload} });
 

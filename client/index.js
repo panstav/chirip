@@ -9,7 +9,6 @@ const subscriptions = require('./subscriptions');
 
 const modal = require('./lib/modal');
 const loadFonts = require('./lib/load-fonts');
-const populateNotes = require('./lib/populate-notes');
 
 const store = createStore(reducers, initialState);
 const dispatch = store.dispatch;
@@ -18,13 +17,14 @@ const getState = store.getState;
 
 ready(() => {
 	loadFonts();
-	populateNotes(getState().notes);
 	registerSubscriptions();
 	homeCtrl();
 	registerServiceWorker();
 });
 
 function homeCtrl(){
+
+	dispatch({ type: 'LOAD_PERSONAL_NOTES' });
 
 	// clicking on new-note fab open new-note window
 	$('[data-action="open-new-note-window"]').on('click', () => {

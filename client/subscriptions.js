@@ -1,10 +1,14 @@
-const populateNotes = require('./lib/populate-notes');
+const renderNote = require('./lib/render-note');
 
 module.exports = { notes, newNote };
 
 function notes(newVal, oldVal){
-	if (newVal.length === oldVal.length) return;
-	populateNotes(newVal);
+
+	const notesHtml = newVal.length
+		? newVal.map(note => `<li class="pb3">${renderNote(note)}</li>`).join('')
+		: '<div>No saved notes.</div>';
+
+	$('main ol').html(notesHtml);
 }
 
 function newNote(newVal, oldVal){

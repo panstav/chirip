@@ -4,7 +4,7 @@ const user = local.get('user');
 
 module.exports = {
 	user,
-	notes: local.get('notes') || [],
+	notes: [],
 	newNote: {
 		content: '',
 		tags: [],
