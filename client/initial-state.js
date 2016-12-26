@@ -5,6 +5,7 @@ const user = local.get('user');
 module.exports = {
 	user,
 	notes: [],
+	uniqueTags: [],
 	newNote: {
 		content: '',
 		tags: [],

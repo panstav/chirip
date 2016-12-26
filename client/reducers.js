@@ -11,11 +11,14 @@ function reducers(state, action){
 
 	switch (action.type){
 
-		case 'LOAD_PERSONAL_NOTES':
-			return $.extend({}, state, { notes: local.get('notes') });
+		case 'LOAD_STORED_DATA':
+			return loadStoredData(state);
 
 		case 'TYPE_NOTE':
 			return $.extend(true, {}, state, { newNote: {content: action.payload} });
+
+		case 'TOGGLE_TAG':
+			return toggleTag(state, action.payload.tag);
 
 		case 'CANCEL_NEW_NOTE':
 			return cancelNewNote(state);
@@ -31,6 +34,28 @@ function reducers(state, action){
 	}
 
 	return state;
+}
+
+function loadStoredData(state){
+
+	const notes = local.get('notes');
+
+	const uniqueTags = notes
+		.reduce((tags, note) => [...tags, ...note.uniqueTags.filter(tag => !tags.includes(tag))], [])
+		.sort((a,b) => a < b ? 1 : -1);
+
+	return $.extend({}, state, {uniqueTags, notes});
+
+}
+
+function toggleTag(state, tag){
+
+	const tags = state.newNote.tags.includes(tag)
+		? state.newNote.tags.filter(toggledTag => toggledTag === tag)
+		: [...state.newNote.tags, tag];
+
+	return $.extend(true, {}, state, { newNote: {tags} });
+
 }
 
 function cancelNewNote(state){

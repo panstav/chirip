@@ -24,7 +24,7 @@ ready(() => {
 
 function homeCtrl(){
 
-	dispatch({ type: 'LOAD_PERSONAL_NOTES' });
+	dispatch({ type: 'LOAD_STORED_DATA' });
 
 	// clicking on new-note fab open new-note window
 	$('[data-action="open-new-note-window"]').on('click', () => {
@@ -60,13 +60,13 @@ function homeCtrl(){
 
 	function openNoteModal(note){
 
-		modal(renderNoteModal(note, getAllTags()), controller);
+		modal(renderOpenNoteModal(), controller);
 
-		function renderNoteModal(note, allTags){
+		function renderOpenNoteModal(){
 
 			return `
 <header class="mv2">
-  <button data-action="save-new-note" ${disabledIfEmpty()} class="dib ma2 f6 br2 ba ph3 pv2 bg-white bw0 pointer ml2">
+  <button data-action="save-new-note" ${note.content ? '' : 'disabled="disabled"'} class="dib ma2 f6 br2 ba ph3 pv2 bg-white bw0 pointer ml2">
   	Save Note
   </button>
   <span data-role="counter" class="gray pa2">${140-note.content.length}</span>
@@ -77,21 +77,7 @@ function homeCtrl(){
 <div class="ph2">
   <textarea placeholder="How are you doing?" class="f4 w-100 h4 mb1 pa2 bn">${note.content}</textarea>
 </div>
-<ul data-role="available-tags" class="list ph2 mv2">
-	${allTags.map(renderTag).join('')}
-</ul>`;
-
-			function disabledIfEmpty(){
-				return note.content ? '' : 'disabled="disabled"';
-			}
-
-		}
-
-		function renderTag(tag){
-
-			return `<li class="dib mr3 mb3">
-	<button class="br3 hover-bg-white ph2 pointer pv1 bw0">${tag}</button>
-</li>`;
+<ul data-role="tags-list" class="list ph2 mv2"></ul>`;
 
 		}
 
@@ -106,8 +92,13 @@ function homeCtrl(){
 				previousKey = ev.key;
 			});
 
-			// hide tags input after saving new note
-			$('[data-action="save-new-note"]', modalElem).on('click', saveNote);
+			$('[data-action="toggle-tag"]', modalElem).on('click', () => {
+				dispatch({ type: 'TOGGLE_TAG', payload: $(this).text() });
+			});
+
+			$('[data-action="save-new-note"]', modalElem).on('click', () => {
+				saveNote();
+			});
 
 			// cancel new note
 			$('[data-action="cancel-new-note"]', modalElem).on('click', () => {
@@ -121,23 +112,6 @@ function homeCtrl(){
 			function saveNote(){
 				modal();
 				dispatch({ type: 'SAVE_NOTE' });
-			}
-
-		}
-
-		function getAllTags(){
-
-			return getState().notes
-				.reduce(uniqueTags, [])
-				.sort((a,b) => a < b ? 1 : -1);
-
-			function uniqueTags(tags, note){
-
-				note.tags.forEach(tag => {
-					if (!tags.includes(tag)) tags.push(tag);
-				});
-
-				return tags;
 			}
 
 		}

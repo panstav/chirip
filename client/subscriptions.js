@@ -4,16 +4,15 @@ module.exports = { notes, newNote };
 
 function notes(newVal, oldVal){
 
-	$('main').html(getNotesTemplate(!!newVal.length));
+	const template = !newVal.length
+		// put up a notice if there are no notes here
+		? '<div class="mh3 mv4">No saved notes.</div>'
 
-	function getNotesTemplate(gotNotes){
-		if (!gotNotes) return '<div class="mh3 mv4">No saved notes.</div>';
+		: `<ol data-role="note-list" class="list pl0">
+	${newVal.map(note => `<li class="pb3">${renderNote(note)}</li>`).join('')}
+</ol>`;
 
-		return newVal.map(note => `<ol data-role="note-list" class="list pl0">
-	<li class="pb3">${renderNote(note)}</li>
-</ol>`).join('');
-
-	}
+	$('main').html(template);
 
 }
 
@@ -44,5 +43,15 @@ function newNote(newVal, oldVal){
 	$('[data-action="save-new-note"]')
 		.attr('disabled', !validForSaving ? true : null)
 		.toggleClass('pointer', validForSaving);
+
+	$('[data-role="tags-list"]').html(newVal.tags.map(renderTagToggle).join(''));
+
+	function renderTagToggle(tag, index, arr){
+
+		return `<li class="dib mr3 mb3">
+	<button data-action="toggle-tag" ${arr.includes(tag) ? 'data-toggled' : ''} class="br3 hover-bg-white ph2 pointer pv1 bw0 pointer">${tag}</button>
+</li>`;
+
+	}
 
 }
