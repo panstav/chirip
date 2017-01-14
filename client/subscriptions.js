@@ -13,7 +13,7 @@ function notes(newVal, oldVal){
 
 	function getNotes(){
 		return newVal
-			.sort((a,b) => a.createdAt < b.createdAt ? -1 : 1)
+			.sort((a,b) => a.createdAt > b.createdAt ? -1 : 1)
 			.map(note => `<li data-note-id="${ note.id }" class="cf">${renderNote(note)}</li>`)
 			.join('');
 	}
