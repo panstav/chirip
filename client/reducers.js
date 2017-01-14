@@ -41,7 +41,7 @@ function reducers(state, action){
 
 function loadStoredData(state){
 
-	const notes = local.get('notes').map(migrate) || [];
+	const notes = local.get('notes') || [];
 	local.set('notes', notes);
 
 	const uniqueTags = notes
@@ -49,18 +49,6 @@ function loadStoredData(state){
 		.sort((a,b) => a < b ? 1 : -1);
 
 	return $.extend({}, state, {uniqueTags, notes});
-
-	function migrate(note){
-
-		const date = new Date();
-
-		note.id = note.id || cuid();
-		note.createdAt = note.createdAt ? note.createdAt + Math.round(Math.random()*10000) : date.getTime() + Math.round(Math.random()*10000);
-		note.author = note.author || initialState.newNote.author;
-
-		return note;
-
-	}
 
 }
 
