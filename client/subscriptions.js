@@ -9,7 +9,7 @@ function notes(newVal, oldVal){
 		? '<div class="mh3 mv4">No saved notes.</div>'
 
 		: `<ol data-role="note-list" class="list pl0">
-	${newVal.map(note => `<li class="pb3">${renderNote(note)}</li>`).join('')}
+	${newVal.map(note => `<li class>${renderNote(note)}</li>`).join('')}
 </ol>`;
 
 	$('main').html(template);
