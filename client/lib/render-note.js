@@ -1,4 +1,4 @@
-const humanDate = require('human-date');
+const timeAgo = require('twitter-timeago');
 
 module.exports = renderNote;
 
@@ -15,7 +15,7 @@ function renderNote(note){
 	<div data-role="note-content" class="fl mt2 f6 f5-ns">
 		<span class="mh1">${note.author.name}</span>
 		<span data-role="author-handle" class="light-silver">${note.author.handle}</span>
-		<div class="fr light-silver mr2">${getRelativeTime(note.createdAt)}</div>
+		<div class="fr light-silver mr2">${timeAgo(note.createdAt)}</div>
 		
 		<p class="lh-copy ml1 mr2">${ note.content }</p>
 	</div>
@@ -27,10 +27,5 @@ function renderNote(note){
 		
 </article>
 `;
-
-	function getRelativeTime(createdAt){
-		const relativeTime = humanDate.relativeTime(new Date(createdAt));
-		return relativeTime === ' ago' ? 'Just now' : relativeTime;
-	}
 
 }
