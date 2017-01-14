@@ -1,6 +1,6 @@
 module.exports = modal;
 
-function modal(title, html, ctrl){
+function modal(title = 'hidden', html, ctrl){
 
 	const bodyElem = $('body');
 	const modalOverlayElem = $('[data-modal-overlay]');
