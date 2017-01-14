@@ -66,7 +66,7 @@ function homeCtrl(){
 
 	function openNoteModal(note){
 
-		modal(renderOpenNoteModal(), controller);
+		modal('note-editing', renderOpenNoteModal(), controller);
 
 		function renderOpenNoteModal(){
 

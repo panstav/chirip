@@ -1,10 +1,10 @@
 module.exports = modal;
 
-function modal(html, ctrl){
+function modal(title, html, ctrl){
 
 	const bodyElem = $('body');
 	const modalOverlayElem = $('[data-modal-overlay]');
-	const modalElem = modalOverlayElem.find('[data-modal]');
+	const modalElem = modalOverlayElem.find('[data-modal]').data('modal', title);
 
 	if (!html){
 		bodyElem.css({ overflow: 'initial' });
