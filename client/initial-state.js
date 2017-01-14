@@ -1,6 +1,6 @@
 const local = require('store');
 
-const user = local.get('user');
+const user = local.get('user') || {};
 
 module.exports = {
 	user,
@@ -10,6 +10,9 @@ module.exports = {
 		content: '',
 		tags: [],
 		createdAt: 0,
-		author: {name: user.name, handle: user.handle}
+		author: {
+			name: user.name || 'Stav Geffen',
+			handle: user.handle || 'stavgeffen'
+		}
 	}
 };

@@ -20,6 +20,9 @@ function reducers(state, action){
 		case 'TOGGLE_TAG':
 			return toggleTag(state, action.payload.tag);
 
+		case 'ADD_TAG':
+			return addTag(state, action.payload.newTag);
+
 		case 'CANCEL_NEW_NOTE':
 			return cancelNewNote(state);
 
@@ -38,10 +41,10 @@ function reducers(state, action){
 
 function loadStoredData(state){
 
-	const notes = local.get('notes');
+	const notes = local.get('notes') || [];
 
 	const uniqueTags = notes
-		.reduce((tags, note) => [...tags, ...note.uniqueTags.filter(tag => !tags.includes(tag))], [])
+		.reduce((tags, note) => [...tags, ...note.tags.filter(tag => !tags.includes(tag))], [])
 		.sort((a,b) => a < b ? 1 : -1);
 
 	return $.extend({}, state, {uniqueTags, notes});
@@ -51,10 +54,21 @@ function loadStoredData(state){
 function toggleTag(state, tag){
 
 	const tags = state.newNote.tags.includes(tag)
-		? state.newNote.tags.filter(toggledTag => toggledTag === tag)
+		? state.newNote.tags.filter(toggledTag => toggledTag !== tag)
 		: [...state.newNote.tags, tag];
 
-	return $.extend(true, {}, state, { newNote: {tags} });
+	const newNote = $.extend({}, state.newNote, {tags});
+	return $.extend({}, state, {newNote});
+
+}
+
+function addTag(state, newTag){
+
+	// ignore if newly added tag is present on newNote
+	if (state.newNote.tags.includes(newTag)) return state;
+
+	// otherwise handle it the same as toggling a tag
+	return toggleTag(state, newTag);
 
 }
 
@@ -63,6 +77,7 @@ function cancelNewNote(state){
 	if (!cachedNote) return $.extend({}, state, { newNote: initialState.newNote });
 
 	const notes = [...state.notes, cachedNote];
+	local.set('notes', notes);
 	cachedNote = undefined;
 
 	return $.extend({}, state, { notes, newNote: initialState.newNote });
@@ -79,9 +94,15 @@ function saveNote(state){
 
 	const notes = [...state.notes, newNote];
 	local.set('notes', notes);
-
 	cachedNote = undefined;
-	return $.extend({}, state, { notes, newNote: initialState.newNote });
+
+	// update uniqueTags
+	const uniqueTags = [
+		...state.uniqueTags,
+		...newNote.tags.filter(tag => !state.uniqueTags.includes(tag))
+	];
+
+	return $.extend({}, state, { notes, uniqueTags, newNote: initialState.newNote });
 }
 
 function editNote(state, id){

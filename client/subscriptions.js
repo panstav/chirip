@@ -44,14 +44,4 @@ function newNote(newVal, oldVal){
 		.attr('disabled', !validForSaving ? true : null)
 		.toggleClass('pointer', validForSaving);
 
-	$('[data-role="tags-list"]').html(newVal.tags.map(renderTagToggle).join(''));
-
-	function renderTagToggle(tag, index, arr){
-
-		return `<li class="dib mr3 mb3">
-	<button data-action="toggle-tag" ${arr.includes(tag) ? 'data-toggled' : ''} class="br3 hover-bg-white ph2 pointer pv1 bw0 pointer">${tag}</button>
-</li>`;
-
-	}
-
 }

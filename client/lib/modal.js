@@ -16,10 +16,10 @@ function modal(html, ctrl){
 	// if modal contains an element with close-modal action - close modal onClick
 		.find('[data-action="close-modal"]').on('click', ev => modal());
 
-	// fire modal controller
-	ctrl(modalElem);
-
 	bodyElem.css({ overflow: 'hidden' });
 	modalOverlayElem.show();
+
+	// fire modal controller
+	ctrl(modalElem);
 
 }

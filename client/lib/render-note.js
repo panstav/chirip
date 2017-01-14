@@ -13,17 +13,19 @@ function renderNote(note){
 	</div>
 	<div data-role="note-content" class="fl mt2">
 		
-		<span class="fw6 mr2">${note.author.name}</span>
+		<span class="fw6 mh1">${note.author.name}</span>
 		<span data-role="author-handle" class="light-silver">${note.author.handle}</span>
 		<div class="fr f6 light-silver mr2">${getRelativeTime(note.createdAt)}</div>
 		
-		<p class="f4 mh3">${ note.content }</p>
-		<div class="b--light-blue bt bw1"><div data-role="actions-container" class="light-silver overflow-hidden">
-				<a data-action="edit-note" class="dib pl3 pv2"><img class="db h1 w1" src="/svg/edit.svg"></a>
-				<a data-action="delete-note" class="dib pl3 pv2"><img class="db h1 w1" src="/svg/delete.svg"></a>
-		</div></div>
+		<p class="f5 ml1 mr2">${ note.content }</p>
 		
 	</div>
+	
+	<div data-role="actions-container" class="light-silver overflow-hidden w-100">
+			<a data-action="edit-note" title="Edit note" class="dib pl3 pv2 pointer"><img class="db h1 w1" src="/svg/edit.svg"></a>
+			<a data-action="delete-note" title="Delete note" class="dib pl3 pv2 pointer"><img class="db h1 w1" src="/svg/delete.svg"></a>
+	</div>
+		
 </article>
 `;
 

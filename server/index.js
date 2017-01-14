@@ -11,7 +11,6 @@ module.exports = initServer;
 
 function initServer(){
 
-	// Boing
 	const server = express();
 
 	if (!isProduction) server.use(morgan('tiny'));

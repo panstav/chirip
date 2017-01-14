@@ -34,14 +34,14 @@ function homeCtrl(){
 	$('main')
 		// open note options on note click
 		.on('click', '[data-note-id]', openOptions)
-		.on('click', '[data-action="edit-note"]', ev => {
-			const id = getNoteId(ev);
-			openNoteModal(getState().notes.find(note => note.id === id));
-			dispatch({ type: `EDIT_NOTE`, payload: {id} });
-		})
+		.on('click', '[data-action="edit-note"]', editNote)
 		.on('click', '[data-action="delete-note"]', ev => {
-			if (confirm('Are you sure?')) return dispatch({ type: `DELETE_NOTE`, payload: {id:getNoteId(ev)} });
+			if (confirm('Are you sure?')) return dispatch({ type: `DELETE_NOTE`, payload: {id: getNoteId(ev)} });
 		});
+
+	function getNoteId(ev){
+		return $(ev.target).parents('[data-note-id]').data('note-id');
+	}
 
 	function openOptions(ev){
 
@@ -54,8 +54,14 @@ function homeCtrl(){
 
 	}
 
-	function getNoteId(ev){
-		return $(ev.target).parents('[data-note-id]').data('note-id');
+	function editNote(ev){
+		// get id at parent elems data
+		const id = getNoteId(ev);
+
+		// open modal editing that note
+		openNoteModal(getState().notes.find(note => note.id === id));
+
+		dispatch({ type: `EDIT_NOTE`, payload: {id} });
 	}
 
 	function openNoteModal(note){
@@ -71,17 +77,39 @@ function homeCtrl(){
   </button>
   <span data-role="counter" class="gray pa2">${140-note.content.length}</span>
   <button data-action="cancel-new-note" class="bg-transparent bw0 dib fr ma1 pa2 pointer">
-  	<img src="/svg/cancel.svg" data-action="close-modal" class="db"/>
+  	<img src="/svg/cancel.svg" class="db"/>
   </button>
 </header>
+
 <div class="ph2">
   <textarea placeholder="How are you doing?" class="f4 w-100 h4 mb1 pa2 bn">${note.content}</textarea>
 </div>
-<ul data-role="tags-list" class="list ph2 mv2"></ul>`;
+
+<div data-role="new-tag-input-container" class="dn cf pt2">
+	<div class="fl w-80 ph2">
+		<input type="text" placeholder="Add a new tag" class="w-100 pa2 bn">
+	</div>
+	<div class="fr w-20 ph2">
+		<button data-action="add-new-tag" class="bg-white w-100 pa2 bn pointer">Add</button>
+	</div>
+</div>
+
+<ul data-role="tags-list" class="list ph2 mv3">
+	<li class="dib mr2 mb2">
+		<button data-action="show-new-tag-input" class="br3 bg-white ph2 pointer pv1 bn pointer">+ New tag</button>
+	</li>
+	${getState().uniqueTags.map(appliedToCurrentNote).sort(tag => tag.toggled ? -1 : 1).map(renderTagToggle).join('')}
+</ul>`;
+
+			function appliedToCurrentNote(tag){
+				return { content: tag, toggled: note.tags.includes(tag) };
+			}
 
 		}
 
 		function controller(modalElem){
+
+			const newTagContainer = $('[data-role="new-tag-input-container"]', modalElem);
 
 			// track previous key to enable ctrl+enter=save
 			let previousKey = '';
@@ -92,8 +120,30 @@ function homeCtrl(){
 				previousKey = ev.key;
 			});
 
-			$('[data-action="toggle-tag"]', modalElem).on('click', () => {
-				dispatch({ type: 'TOGGLE_TAG', payload: $(this).text() });
+			$('[data-action="show-new-tag-input"]', modalElem).on('click', ev => {
+				newTagContainer.show();
+				$(ev.target).parent().hide();
+			});
+
+			$('[data-action="add-new-tag"]', modalElem).on('click', () => {
+				const newTagInputElem = $('input', newTagContainer);
+
+				let newTag = newTagInputElem.val().trim().replace(' ', '-').toLowerCase();
+
+				// if new tag input is empty, ignore interaction
+				if (!newTag) return;
+
+				// otherwise add it to current note
+				dispatch({ type: 'ADD_TAG', payload: {newTag} });
+				// clear mini-form and add tag to unique list
+				newTagInputElem.val('');
+				$('[data-role="tags-list"]').append(renderTagToggle({ content: newTag }));
+			});
+
+			$('[data-action="toggle-tag"]', modalElem).on('click', ev => {
+				dispatch({ type: 'TOGGLE_TAG', payload: { tag: $(ev.target).text().trim() } });
+				// visually toggle button
+				$(ev.target).blur().toggleClass('bg-white').toggleClass('hover-bg-white');
 			});
 
 			$('[data-action="save-new-note"]', modalElem).on('click', () => {
@@ -102,8 +152,17 @@ function homeCtrl(){
 
 			// cancel new note
 			$('[data-action="cancel-new-note"]', modalElem).on('click', () => {
-				modal();
-				dispatch({ type: 'CANCEL_NEW_NOTE' });
+				const newNote = getState().newNote;
+
+				// simply close modal if note is new and empty
+				if (!newNote.createdAt && !newNote.content) return modal();
+
+				// otherwise confirm with user before discarding
+				if (confirm('Are you sure?')){
+					modal();
+					// also dispatch event to return note-under-edit to list of notes
+					dispatch({ type: 'CANCEL_NEW_NOTE' });
+				}
 			});
 
 			// focus on note editing field
@@ -113,6 +172,17 @@ function homeCtrl(){
 				modal();
 				dispatch({ type: 'SAVE_NOTE' });
 			}
+
+		}
+
+		function renderTagToggle(tag){
+
+			return `
+<li class="dib mr2 mb2">
+	<button data-action="toggle-tag" class="${tag.toggled ? '' : 'hover-'}bg-white br3 ph2 pointer pv1 bw0 pointer">
+		${tag.content}
+	</button>
+</li>`;
 
 		}
 
