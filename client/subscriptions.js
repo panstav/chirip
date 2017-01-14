@@ -7,12 +7,16 @@ function notes(newVal, oldVal){
 	const template = !newVal.length
 		// put up a notice if there are no notes here
 		? '<div class="mh3 mv4">No saved notes.</div>'
-
-		: `<ol data-role="note-list" class="list pl0">
-	${newVal.map(note => `<li data-note-id="${ note.id }" class="cf">${renderNote(note)}</li>`).join('')}
-</ol>`;
+		: `<ol data-role="note-list" class="list pl0">${getNotes()}</ol>`;
 
 	$('main').html(template);
+
+	function getNotes(){
+		return newVal
+			.sort((a,b) => a.createdAt < b.createdAt ? -1 : 1)
+			.map(note => `<li data-note-id="${ note.id }" class="cf">${renderNote(note)}</li>`)
+			.join('');
+	}
 
 }
 
