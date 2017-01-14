@@ -8,14 +8,16 @@ html
 
 main
 
-	article
-		box-shadow: inset 0px -1px 2px 0px $themeDelimiterColor
+	[data-note-id]
 
-		[data-role="note-content"]
-			width: calc(100% - 5rem)
+		article
+			box-shadow: inset 0px -1px 2px 0px $themeDelimiterColor
 
 		[data-role="author-handle"]:before
 			content: '@'
+
+		[data-role="note-content"], [data-role="actions-container"]
+			width: calc(100% - 5rem)
 
 		[data-role="actions-container"]
 			transition: height .3s ease, opacity .3s ease
