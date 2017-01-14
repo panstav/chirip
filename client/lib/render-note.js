@@ -11,14 +11,13 @@ function renderNote(note){
 	    <img src="https://placekitten.com/g/200/200" class="db h3 w3">
 	  </a>
 	</div>
-	<div data-role="note-content" class="fl mt2">
-		
-		<span class="fw6 mh1">${note.author.name}</span>
+	
+	<div data-role="note-content" class="fl mt2 f6 f5-ns">
+		<span class="mh1">${note.author.name}</span>
 		<span data-role="author-handle" class="light-silver">${note.author.handle}</span>
-		<div class="fr f6 light-silver mr2">${getRelativeTime(note.createdAt)}</div>
+		<div class="fr light-silver mr2">${getRelativeTime(note.createdAt)}</div>
 		
-		<p class="f5 ml1 mr2">${ note.content }</p>
-		
+		<p class="lh-copy ml1 mr2">${ note.content }</p>
 	</div>
 	
 	<div data-role="actions-container" class="light-silver overflow-hidden w-100">

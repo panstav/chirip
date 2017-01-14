@@ -82,7 +82,7 @@ function homeCtrl(){
 </header>
 
 <div class="ph2">
-  <textarea placeholder="How are you doing?" class="f4 w-100 h4 mb1 pa2 bn">${note.content}</textarea>
+  <textarea placeholder="How are you doing?" class="f4 w-100 lh-copy mb1 pa2 bn">${note.content}</textarea>
 </div>
 
 <div data-role="new-tag-input-container" class="dn cf pt2">
