@@ -41,13 +41,26 @@ function reducers(state, action){
 
 function loadStoredData(state){
 
-	const notes = local.get('notes') || [];
+	const notes = local.get('notes').map(migrate) || [];
+	local.set('notes', notes);
 
 	const uniqueTags = notes
 		.reduce((tags, note) => [...tags, ...note.tags.filter(tag => !tags.includes(tag))], [])
 		.sort((a,b) => a < b ? 1 : -1);
 
 	return $.extend({}, state, {uniqueTags, notes});
+
+	function migrate(note){
+
+		const date = new Date();
+
+		note.id = note.id || cuid();
+		note.createdAt = note.createdAt || date.getTime();
+		note.author = note.author || initialState.newNote.author;
+
+		return note;
+
+	}
 
 }
 
