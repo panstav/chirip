@@ -55,7 +55,7 @@ function loadStoredData(state){
 		const date = new Date();
 
 		note.id = note.id || cuid();
-		note.createdAt = note.createdAt || date.getTime();
+		note.createdAt = note.createdAt || date.getTime() + Math.round(Math.random()*10000);
 		note.author = note.author || initialState.newNote.author;
 
 		return note;
