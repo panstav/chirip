@@ -8,8 +8,8 @@
     "start": "node index.js"
   },
   "engines": {
-    "node": "4.6.0",
-    "npm": "2.15.0"
+    "node": "6.9.2",
+    "npm": "3.10.9"
   },
   "keywords": [],
   "author": "Stav Geffen <stavgeffen@gmail.com> (https://stav.io/)",
